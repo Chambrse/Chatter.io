@@ -1,10 +1,11 @@
 {
-  "name": "chat",
+  "name": "chatter",
   "version": "1.0.0",
-  "description": "",
+  "description": "An chat app with a twist!",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
