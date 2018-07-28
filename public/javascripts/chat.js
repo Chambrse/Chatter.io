@@ -3,12 +3,12 @@ var socket = io();
 //-----------------------------------------------------------------------------
 // Emit chat message when enter key is pressed.
 //-----------------------------------------------------------------------------
-$("#chat-input").keydown(function(event) {
+$("#messageInput").keydown(function(event) {
       if (event.keyCode == 13) {
           event.preventDefault();
-          if ($("#chat-input").val() != "") {
-              socket.emit("chat-message", $("#chat-input").val());
-              $("#chat-input").val("");
+          if ($("#messageInput").val() != "") {
+              socket.emit("chat-message", $("#messageInput").val());
+              $("#messageInput").val("");
           }
       }
 });
@@ -17,5 +17,5 @@ $("#chat-input").keydown(function(event) {
 // Receive chat message from server.
 //-----------------------------------------------------------------------------
 socket.on("chat-message", function(message) {
-    $("#chat-container").append(message + "<br />")
+    $("#col1").append(message + "<br />")
 });
