@@ -5,6 +5,23 @@ body {
     background-image: url(/images/connectwork.png);
 }
 
+.message {
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    box-shadow: 2px 2px 1px grey;
+    padding-left: 3px;
+}
+
+.messageHolder {
+    position: absolute;
+    width: 100%;
+}
+
+#chatWindow {
+    height: 65vh;
+}
+
 .opaque {
     background-color: white;
     border-radius: 5px;
@@ -12,22 +29,11 @@ body {
 
 .messageColumn {
     word-wrap: break-word;
+    margin-top: 10px;
+    position: relative;
 }
 
 #messageInput {
     width: 100%;
 }
 
-#chat-container {
-    height: 75vh;
-    width: 50vw;
-    border-style: solid;
-    margin-top: 1.5em;
-}
-
-#chat-input {
-    height: 10vh;
-    width: 50vw;
-    resize: none;
-    margin-top: 1em;
-}
