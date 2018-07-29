@@ -19,14 +19,21 @@ $("#messageInput").keydown(function (event) {
 //-----------------------------------------------------------------------------
 // Receive chat message from server.
 //-----------------------------------------------------------------------------
+
+let messageCount = 0;
 socket.on("chat-message", function (message) {
 
-    let messageDiv = $("<div class='message animated slideInUp'>");
+    let messageDiv = $("<div class='message animated slideInRight'>");
     messageDiv.text(message);
 
-    $("#holder1").append(messageDiv);
+    $("#displayDiv").append(messageDiv);
 
-    if (checkHeight()) {
+    messageCount++;
+    console.log(messageCount);
+
+    if (messageCount > 6) {
+        console.log(messageCount);
+        messageCount = 0;
         moveDivs();
     };
 
@@ -34,20 +41,11 @@ socket.on("chat-message", function (message) {
 
 function moveDivs() {
 
-    let goCol2 = $("#holder1").detach();
-    goCol2.addClass("animated slideInRight");
-    $("#col2").attach(goCol2);
-
-};
-
-function checkHeight() {
-
-    console.log($("#holder1").height());
-
-    if ($("#holder1").height() > 500) {
-        return true;
-    } else {
-        return false;
-    };
+    console.log("movedivs");
+    $("#chatWindow").children().last().remove();
+    $(".displayDiv").css("z-index", "-=1");
+    $("#displayDiv").attr("id", null);
+    let newdiv = $("<div class='col-3 displayDiv' id='displayDiv' style='z-index: 4'></div>");
+    $("#chatWindow").prepend(newdiv);
 
 };

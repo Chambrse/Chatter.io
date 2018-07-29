@@ -13,14 +13,10 @@ body {
     padding-left: 3px;
 }
 
-.messageHolder {
-    position: absolute;
-    width: 100%;
-    transition: transform 2s ease-in-out;
-}
-
 #chatWindow {
     height: 65vh;
+    display: flex;
+    flex-direction: row-reverse;
 }
 
 .opaque {
@@ -28,13 +24,13 @@ body {
     border-radius: 5px;
 }
 
-.messageColumn {
-    word-wrap: break-word;
-    margin-top: 10px;
-    position: relative;
-}
-
 #messageInput {
     width: 100%;
+}
+
+.displayDiv {
+    padding: 0;
+    margin-top: 15px;
+    transition: 1000ms;
 }
 
