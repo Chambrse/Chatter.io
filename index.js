@@ -6,6 +6,7 @@ var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 var path = require('path');
+let randomSentence = require("random-sentence");
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 
@@ -29,4 +30,21 @@ io.sockets.on("connection", function(socket) {
         io.sockets.emit("chat-message", message);
     });
 
+    socket.on("chatsim", function() {
+        chatSim();
+    });
+
 });
+
+
+function chatSim() {
+    new Promise(function(resolve, reject) {
+        setTimeout(function() {
+            io.sockets.emit("chat-message", randomSentence({min: 4, max: 9}));
+            resolve();
+        }, Math.ceil(Math.random() * 1000));
+
+    }).then(function () {
+        chatSim();
+    });
+};
