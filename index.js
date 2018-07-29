@@ -26,6 +26,8 @@ app.get("/", function(req, res) {
 //-----------------------------------------------------------------------------
 io.sockets.on("connection", function(socket) {
 
+    io.sockets.emit("chat-message", "User Connected.");
+
     socket.on("chat-message", function(message) {
         io.sockets.emit("chat-message", message);
     });
@@ -42,7 +44,7 @@ function chatSim() {
         setTimeout(function() {
             io.sockets.emit("chat-message", randomSentence({min: 4, max: 9}));
             resolve();
-        }, Math.ceil(Math.random() * 1000));
+        }, Math.ceil(Math.random() * 3000));
 
     }).then(function () {
         chatSim();
