@@ -44,8 +44,9 @@ function moveDivs() {
     console.log("movedivs");
     $("#chatWindow").children().last().remove();
     $(".displayDiv").css("z-index", "-=1");
+    $(".displayDiv").animate({ right: '+=25%' }, 1000);
     $("#displayDiv").attr("id", null);
-    let newdiv = $("<div class='col-3 displayDiv animated slideInLeft' id='displayDiv' style='z-index: 4'></div>");
+    let newdiv = $("<div class='col-3 displayDiv animated slideInLeft' id='displayDiv' style='z-index: 4;right: 0%;'></div>");
     $("#chatWindow").prepend(newdiv);
 
 };
