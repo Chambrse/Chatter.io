@@ -24,12 +24,23 @@ app.get("/", function(req, res) {
 //-----------------------------------------------------------------------------
 // Configure web sockets.
 //-----------------------------------------------------------------------------
+let messageID = 0;
+
 io.sockets.on("connection", function(socket) {
 
-    io.sockets.emit("chat-message", "User Connected.");
+    messageID++;
+
+    io.sockets.emit("chat-message", {id: messageID, text: "User Connected."});
 
     socket.on("chat-message", function(message) {
-        io.sockets.emit("chat-message", message);
+        messageID++;
+        let messageObj = {
+            id: messageID,
+            text: message
+        };
+        console.log(messageObj);
+        io.sockets.emit("chat-message", messageObj);
+
     });
 
     socket.on("chatsim", function() {
@@ -40,11 +51,12 @@ io.sockets.on("connection", function(socket) {
 
 
 function chatSim() {
+    messageID++;
     new Promise(function(resolve, reject) {
         setTimeout(function() {
-            io.sockets.emit("chat-message", randomSentence({min: 4, max: 9}));
+            io.sockets.emit("chat-message", {id: messageID, text: randomSentence({min: 4, max: 9})});
             resolve();
-        }, Math.ceil(Math.random() * 3000));
+        }, Math.ceil(Math.random() * 1000));
 
     }).then(function () {
         chatSim();

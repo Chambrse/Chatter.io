@@ -19,12 +19,16 @@ $("#messageInput").keydown(function (event) {
 //-----------------------------------------------------------------------------
 // Receive chat message from server.
 //-----------------------------------------------------------------------------
-
+let currentSledID = 0;
 let messageCount = 0;
+let isFirstCycle = true;
 socket.on("chat-message", function (message) {
 
+    console.log(message);
+
     let messageDiv = $("<div class='message animated slideInRight'>");
-    messageDiv.text(message);
+    messageDiv.text(message.text);
+    messageDiv.attr("messageID", message.messageID)
 
     $("#displayDiv").append(messageDiv);
 
@@ -32,9 +36,8 @@ socket.on("chat-message", function (message) {
     console.log(messageCount);
 
     if (messageCount > 6) {
-        console.log(messageCount);
         messageCount = 0;
-        moveDivs();
+        changeDiv();
     };
 
 });
@@ -50,3 +53,28 @@ function moveDivs() {
     $("#chatWindow").prepend(newdiv);
 
 };
+
+function changeDiv() {
+    let newdiv = $("\
+<div class='col-3 displayDiv' sledID='" + (currentSledID + 3) + "' style='z-index: 4; right: 0%;'>\
+</div>\
+<div class='col-3 displayDiv' sledID='" + (currentSledID + 2) + "' style='z-index: 3; right: 25%;'>\
+</div>\
+<div class='col-3 displayDiv' sledID='" + (currentSledID + 1) + "' style='z-index: 2; right: 50%;'>\
+</div>");
+    if (currentSledID % 3 === 0 && !isFirstCycle) {
+        $(".displayDiv").animate({ right: '+=75%' }, 1000);/* .then(function() {
+            $("[sledid<" + currentSledID + "]").remove();
+        }); */
+        $("#chatWindow").prepend(newdiv);
+        $("[sledID=" + currentSledID + "]").css("z-index", "1");
+        console.log("sledid", currentSledID);
+
+    }
+    $("[sledID=" + currentSledID + "]").attr("id", "");
+    $("[sledID=" + (currentSledID + 1) + "]").attr("id", "displayDiv");
+    currentSledID++;
+    isFirstCycle = false;
+}
+
+
