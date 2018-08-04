@@ -12,6 +12,7 @@ body {
     border-radius: 5px;
     box-shadow: 2px 2px 1px grey;
     padding-left: 3px;
+    box-sizing: border-box;
 }
 
 #chatWindow {
