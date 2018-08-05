@@ -6,13 +6,23 @@ body {
     overflow: hidden;
 }
 
+.container {
+    margin-top: 50px;
+}
+
 .message {
     background-color: white;
     border: 1px solid black;
     border-radius: 5px;
     box-shadow: 2px 2px 1px grey;
     padding-left: 3px;
+    word-wrap: break-word;
     box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+.message:hover {
+    background-color: grey;
 }
 
 #chatWindow {

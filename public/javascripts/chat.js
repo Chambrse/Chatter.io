@@ -1,15 +1,16 @@
 var socket = io();
 
+$(window).on('load',function(){
+    $('#exampleModal').modal('show');
+});
+
 //-----------------------------------------------------------------------------
 // Emit chat message when enter key is pressed.
 //-----------------------------------------------------------------------------
 $("#messageInput").keydown(function (event) {
     if (event.keyCode == 13) {
         event.preventDefault();
-        if ($("#messageInput").val() === "admin chatsim") {
-            socket.emit("chatsim");
-        }
-        else if ($("#messageInput").val() != "") {
+        if ($("#messageInput").val() != "") {
             socket.emit("chat-message", $("#messageInput").val());
         };
         $("#messageInput").val("");
@@ -26,9 +27,9 @@ socket.on("chat-message", function (message) {
 
     console.log(message);
 
-    let messageDiv = $("<div class='message animated slideInRight'>");
+    let messageDiv = $("<div class='message animated slideInRight' messageID =>");
     messageDiv.text(message.text);
-    messageDiv.attr("messageID", message.messageID)
+    messageDiv.attr("messageID", message.id)
 
     $("#displayDiv").append(messageDiv);
 
@@ -52,7 +53,7 @@ function changeDiv() {
 </div>");
     if (currentSledID % 3 === 0 && !isFirstCycle) {
         $(".displayDiv").animate({ right: '+=75%' }, 1000);
-        $("[state=full]").animate({ opacity: '0' }, 1000,  function () {
+        $("[state=full]").animate({ opacity: '0' }, 1000, function () {
             $("[state=toRemove]").remove();
         });
         $("#chatWindow").prepend(newdiv);
