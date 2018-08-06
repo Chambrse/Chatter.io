@@ -67,17 +67,20 @@ $(document).ready(function () {
         if (currentSledID % 3 === 0 && !isFirstCycle) {
             $("#chatWindow").prepend(newdiv);
 
-            $(".displayDiv").transition({ right: '+=75%' }, 1000);
-            $("[state=full]").transition({ opacity: '0' }, 1000, function () {
-                $("[state=toRemove]").remove();
+            //$(".displayDiv").transition({ right: "+=75px" }, 1000);
+            $("#displayDiv").velocity({ opacity: '0', right: "+=75%" }, 1000);
+            $("[state=full]").velocity({ opacity: '0', right: "+=75%" }, 1000, function () {
+                $("[state=full]").remove();
+                $("[sledID=" + currentSledID + "]").attr("id", "").attr("state", "full");
+                $("[sledID=" + (currentSledID + 1) + "]").attr("id", "displayDiv");
             });
-        };
-            $("[sledID=" + (currentSledID - 1) + "]").attr("state", "toRemove");
+        } else {
             $("[sledID=" + currentSledID + "]").attr("id", "").attr("state", "full");
             $("[sledID=" + (currentSledID + 1) + "]").attr("id", "displayDiv");
-            currentSledID++;
-            isFirstCycle = false;
+        }
+        currentSledID++;
+        isFirstCycle = false;
     };
 
-    });
+});
 
