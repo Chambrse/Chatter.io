@@ -33,7 +33,7 @@ io.sockets.on("connection", function (socket) {
     io.sockets.emit("chat-message", { id: messageID, text: "User Connected." });
 
     socket.on("chat-message", function (message) {
-        messageArray = message.split(" ");
+        messageArray = message.text.split(" ");
         if (messageArray[0] === "admin") {
             switch (messageArray[1]) {
                 case "chatsim":
@@ -51,7 +51,8 @@ io.sockets.on("connection", function (socket) {
             messageID++;
             let messageObj = {
                 id: messageID,
-                text: message
+                text: message.text,
+                nickname: message.nickname
             };
             console.log(messageObj);
             io.sockets.emit("chat-message", messageObj);

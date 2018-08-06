@@ -1,4 +1,5 @@
 var socket = io();
+let userNickName;
 
 $(window).on('load',function(){
     $('#exampleModal').modal('show');
@@ -11,10 +12,14 @@ $("#messageInput").keydown(function (event) {
     if (event.keyCode == 13) {
         event.preventDefault();
         if ($("#messageInput").val() != "") {
-            socket.emit("chat-message", $("#messageInput").val());
+            socket.emit("chat-message", {text: $("#messageInput").val(), nickname: userNickName});
         };
         $("#messageInput").val("");
-    }
+    };
+});
+
+$("#nickNameButton").on("click", function() {
+    userNickName = $("#nickName").val().trim();
 });
 
 //-----------------------------------------------------------------------------
@@ -28,7 +33,7 @@ socket.on("chat-message", function (message) {
     console.log(message);
 
     let messageDiv = $("<div class='message animated slideInRight' messageID =>");
-    messageDiv.text(message.text);
+    messageDiv.text(message.nickname + ": " + message.text);
     messageDiv.attr("messageID", message.id)
 
     $("#displayDiv").append(messageDiv);
@@ -64,5 +69,7 @@ function changeDiv() {
     currentSledID++;
     isFirstCycle = false;
 }
+
+
 
 
