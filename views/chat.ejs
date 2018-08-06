@@ -43,49 +43,50 @@
             </div>
         </div>
         <div class="row" id="chatWindow">
-            <div class="col-3 displayDiv" state='initial'  sledID="3" style="z-index: 3; right: 0%;">
+            <div class="col-3 displayDiv" state='initial' sledID="3" style="z-index: 3; right: 0%;">
 
             </div>
             <div class="col-3 displayDiv" state='initial' sledID="2" style="z-index: 2; right: 25%; opacity: 1;">
 
             </div>
-            <div class="col-3 displayDiv" state='initial'  sledID="1" style="z-index: 1; right: 50%;">
+            <div class="col-3 displayDiv" state='initial' sledID="1" style="z-index: 1; right: 50%;">
 
             </div>
-            <div class="col-3 displayDiv" state='initial'  id="displayDiv" sledID="0" style="z-index: 0; right: 75%;">
+            <div class="col-3 displayDiv" state='initial' id="displayDiv" sledID="0" style="z-index: 0; right: 75%;">
 
             </div>
         </div>
     </div>
-      
-      <!-- Modal -->
-      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Choose a nickname:</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Choose a nickname:</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input id="nickName" type="text" placeholder="Nickname">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="nickNameButton" class="btn btn-secondary" data-dismiss="modal">Ok</button>
+                </div>
             </div>
-            <div class="modal-body">
-                <input id="nickName" type="text" placeholder="Nickname">
-            </div>
-            <div class="modal-footer">
-              <button type="button" id="nickNameButton" class="btn btn-secondary" data-dismiss="modal">Ok</button>
-            </div>
-          </div>
         </div>
-      </div>
+    </div>
 
 
 
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS, jq transit -->
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+    <script src="http://ricostacruz.com/jquery.transit/jquery.transit.js"></script>
 
     <!-- Javascript -->
     <script src="/javascripts/chat.js"></script>

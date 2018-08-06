@@ -10,8 +10,9 @@ let randomSentence = require("random-sentence");
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 
-server.listen(process.env.PORT || 3000, function () {
-    console.log('Server listening');
+let port = process.env.PORT || 3000;
+server.listen(port, function () {
+    console.log('Server listening on port: ' + port);
 });
 
 //-----------------------------------------------------------------------------
@@ -30,7 +31,7 @@ io.sockets.on("connection", function (socket) {
 
     messageID++;
 
-    io.sockets.emit("chat-message", { id: messageID, text: "User Connected." });
+    io.sockets.emit("chat-message", { id: messageID, text: "User Connected.", });
 
     socket.on("chat-message", function (message) {
         messageArray = message.text.split(" ");

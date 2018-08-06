@@ -27,7 +27,6 @@ body {
 
 #chatWindow {
     height: 65vh;
-    display: flex;
     margin: 0px 10px;
     position: relative;
 }
