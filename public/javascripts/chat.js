@@ -1,11 +1,9 @@
 $(document).ready(function () {
 
-    var socket = io();
-    let userNickName;
+    console.log(window.location)
 
-    $(window).on('load', function () {
-        $('#exampleModal').modal('show');
-    });
+    let userNickName = localStorage.getItem("nickname");
+    var socket = io(window.location.host, { query: "nickname=" + userNickName});
 
     //-----------------------------------------------------------------------------
     // Emit chat message when enter key is pressed.
@@ -20,9 +18,6 @@ $(document).ready(function () {
         };
     });
 
-    $("#nickNameButton").on("click", function () {
-        userNickName = $("#nickName").val().trim();
-    });
 
     //-----------------------------------------------------------------------------
     // Receive chat message from server.
@@ -67,8 +62,8 @@ $(document).ready(function () {
         if (currentSledID % 3 === 0 && !isFirstCycle) {
             $("#chatWindow").prepend(newdiv);
 
-            //$(".displayDiv").transition({ right: "+=75px" }, 1000);
-            $("#displayDiv").velocity({ opacity: '0', right: "+=75%" }, 1000);
+            $(".displayDiv").transition({ right: "+=75px" }, 1000);
+            // $("#displayDiv").velocity({ opacity: '0', right: "+=75%" }, 1000);
             $("[state=full]").velocity({ opacity: '0', right: "+=75%" }, 1000, function () {
                 $("[state=full]").remove();
                 $("[sledID=" + currentSledID + "]").attr("id", "").attr("state", "full");

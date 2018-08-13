@@ -37,25 +37,21 @@
                 <h3>Join the conversation.</h3>
             </div>
         </div>
+
         <div class="row">
-            <div class="col">
-                <input class="form-control" type="text" placeholder="Ask a question" id="messageInput"></input>
+            <div class="col-md-6 col-sm-12" id="loginWindow">
+                Welcome to Chatter, please log in.
+            </div>
+            <div class="col-md-6 col-sm-12" id="loginWindow">
+                <form action="/chat" class="form-group">
+                    Choose a nickname:
+                    <input type="text" class="form-control" id="nickname" autocomplete="off" autofocus><br>
+                    <button type="submit" class="form-control" id="nicknameSubmit">Submit</button>
+
+                </form>
             </div>
         </div>
-        <div class="row" id="chatWindow">
-            <div class="col-3 displayDiv" state='initial' sledID="3" style="z-index: 3; right: 0%;">
 
-            </div>
-            <div class="col-3 displayDiv" state='initial' sledID="2" style="z-index: 2; right: 25%; opacity: 1;">
-
-            </div>
-            <div class="col-3 displayDiv" state='initial' sledID="1" style="z-index: 1; right: 50%;">
-
-            </div>
-            <div class="col-3 displayDiv" state='initial' id="displayDiv" sledID="0" style="z-index: 0; right: 75%;">
-
-            </div>
-        </div>
     </div>
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS, jq transit -->
@@ -67,7 +63,7 @@
     <script src="http://ricostacruz.com/jquery.transit/jquery.transit.js"></script>
 
     <!-- Javascript -->
-    <script src="/javascripts/chat.js"></script>
+    <script src="/javascripts/login.js"></script>
 
     <!-- Velocity -->
     <script src="//cdn.jsdelivr.net/npm/velocity-animate@2.0/velocity.min.js"></script>

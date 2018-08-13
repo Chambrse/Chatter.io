@@ -19,6 +19,10 @@ server.listen(port, function () {
 // Routes.
 //-----------------------------------------------------------------------------
 app.get("/", function (req, res) {
+    res.render("login");
+});
+
+app.get("/chat", function (req, res) {
     res.render("chat");
 });
 
@@ -31,9 +35,13 @@ io.sockets.on("connection", function (socket) {
 
     messageID++;
 
-    io.sockets.emit("chat-message", { id: messageID, text: "User Connected.", });
+    console.log(socket.handshake.query.nickname);
+
+    io.sockets.emit("chat-message", { id: messageID, text: "User Connected", nickname: socket.handshake.query.nickname});
 
     socket.on("chat-message", function (message) {
+
+        console.log(message);
         messageArray = message.text.split(" ");
         if (messageArray[0] === "admin") {
             switch (messageArray[1]) {
