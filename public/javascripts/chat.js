@@ -51,28 +51,22 @@ $(document).ready(function () {
 
     function changeDiv() {
         let newdiv = $("\
-<div class='col-3 displayDiv' state='initial' sledID='" + (currentSledID + 3) + "' style='z-index: " + (currentSledID + 3) + "; right: -75%;'>\
-</div>\
-<div class='col-3 displayDiv' state='initial'  sledID='" + (currentSledID + 2) + "' style='z-index: " + (currentSledID + 2) + "; right: -50%;'>\
-</div>\
-<div class='col-3 displayDiv' state='initial'  sledID='" + (currentSledID + 1) + "' style='z-index: " + (currentSledID + 1) + "; right: -25%;'>\
-</div>");
-
-
+    <div class='col-3 displayDiv' state='initial' sledID='" + (currentSledID + 3) + "' style='z-index: " + (currentSledID + 3) + "; right: 0%;'>\
+    </div>\
+    <div class='col-3 displayDiv' state='initial'  sledID='" + (currentSledID + 2) + "' style='z-index: " + (currentSledID + 2) + "; right: 25%;'>\
+    </div>\
+    <div class='col-3 displayDiv' state='initial'  sledID='" + (currentSledID + 1) + "' style='z-index: " + (currentSledID + 1) + "; right: 50%;'>\
+    </div>");
         if (currentSledID % 3 === 0 && !isFirstCycle) {
-            $("#chatWindow").prepend(newdiv);
-
-            $(".displayDiv").transition({ right: "+=75px" }, 1000);
-            // $("#displayDiv").velocity({ opacity: '0', right: "+=75%" }, 1000);
-            $("[state=full]").velocity({ opacity: '0', right: "+=75%" }, 1000, function () {
-                $("[state=full]").remove();
-                $("[sledID=" + currentSledID + "]").attr("id", "").attr("state", "full");
-                $("[sledID=" + (currentSledID + 1) + "]").attr("id", "displayDiv");
+            $(".displayDiv").animate({ right: '+=75%' }, 1000);
+            $("[state=full]").animate({ opacity: '0' }, 1000,  function () {
+                $("[state=toRemove]").remove();
             });
-        } else {
-            $("[sledID=" + currentSledID + "]").attr("id", "").attr("state", "full");
-            $("[sledID=" + (currentSledID + 1) + "]").attr("id", "displayDiv");
+            $("#chatWindow").prepend(newdiv);
         }
+        $("[sledID=" + (currentSledID - 1) + "]").attr("state", "toRemove");
+        $("[sledID=" + currentSledID + "]").attr("id", "").attr("state", "full");
+        $("[sledID=" + (currentSledID + 1) + "]").attr("id", "displayDiv");
         currentSledID++;
         isFirstCycle = false;
     };

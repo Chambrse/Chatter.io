@@ -1,18 +1,34 @@
-//-----------------------------------------------------------------------------
-// Configure Express.
-//-----------------------------------------------------------------------------
+// Environment variables
+require("dotenv").config();
+
+// Imports
 var express = require('express');
+var cookieParser = require('cookie-parser');
+var path = require('path');
+let randomSentence = require("random-sentence");
+var session = require("express-session");
+
+var db = require("./models");
+// var passport = require('./config/passport.js');
+
+
+// Make the server
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
-var path = require('path');
-let randomSentence = require("random-sentence");
+
+// Middleware
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
+app.use(cookieParser());
+app.use(session({ secret: "keyboard cat", resave: true, saveUninitialized: true }));
 
+// Initialize sequelize, start listening on the port.
 let port = process.env.PORT || 3000;
-server.listen(port, function () {
-    console.log('Server listening on port: ' + port);
+db.sequelize.sync({force: true}).then(function () {
+    server.listen(port, function () {
+        console.log('Server listening on port: ' + port);
+    });
 });
 
 //-----------------------------------------------------------------------------
@@ -37,7 +53,7 @@ io.sockets.on("connection", function (socket) {
 
     console.log(socket.handshake.query.nickname);
 
-    io.sockets.emit("chat-message", { id: messageID, text: "User Connected", nickname: socket.handshake.query.nickname});
+    io.sockets.emit("chat-message", { id: messageID, text: "User Connected", nickname: socket.handshake.query.nickname });
 
     socket.on("chat-message", function (message) {
 
@@ -46,13 +62,13 @@ io.sockets.on("connection", function (socket) {
         if (messageArray[0] === "admin") {
             switch (messageArray[1]) {
                 case "chatsim":
-                        simOn = true;
-                        chatSim();
+                    simOn = true;
+                    chatSim();
                     break;
                 case "simOff":
                     simOn = false;
-                break;
-            
+                    break;
+
                 default:
                     break;
             }
