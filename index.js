@@ -57,30 +57,30 @@ var indexRouter = require('./routes/index_routes.js');
 app.use('/', indexRouter);
 
 passport.use(new LocalStrategy({
-        usernameField: 'email',
-        passwordField: 'password'
-    }, function (username, password, done) {
+    usernameField: 'email',
+    passwordField: 'password'
+}, function (username, password, done) {
 
-        db.users.findOne({ where: { email: username }, attributes: ['id', 'hash'] }).then(function (results) {
+    db.users.findOne({ where: { email: username }, attributes: ['id', 'hash'] }).then(function (results) {
 
-            console.log(results);
+        console.log(results);
 
-            if (!results) {
-                done(null, false);
-            }
+        if (!results) {
+            done(null, false);
+        } else { 
 
-            const hash = results.dataValues.hash.toString();
+        const hash = results.dataValues.hash.toString();
 
-            bcrypt.compare(password, hash, function(err, response) {
-                console.log("compare response", response);
-                if (response === true) {
-                    return done(null, {user_id: results.dataValues.id});
-                } else {
-                    return done(null, false);
-                };
-            });
-
+        bcrypt.compare(password, hash, function (err, response) {
+            console.log("compare response", response);
+            if (response === true) {
+                return done(null, { user_id: results.dataValues.id });
+            } else {
+                return done(null, false);
+            };
         });
+    };
+});
 
     }));
 
