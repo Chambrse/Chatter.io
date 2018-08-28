@@ -63,7 +63,9 @@ passport.use(new LocalStrategy({
 
         db.users.findOne({ where: { email: username }, attributes: ['id', 'hash'] }).then(function (results) {
 
-            if (results.length === 0) {
+            console.log(results);
+
+            if (!results) {
                 done(null, false);
             }
 
