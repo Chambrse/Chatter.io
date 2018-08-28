@@ -3,11 +3,10 @@ body {
     flex-direction: column;
     align-items: center;
     background-image: url(/images/connectwork.png);
-    overflow: hidden;
 }
 
 .container {
-    margin-top: 50px;
+    margin: 50px 0px;
 }
 
 .message {
@@ -50,6 +49,9 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 50vh;
 }
 
+#registerform {
+    width: 100%;
+    margin: 15px;
+}

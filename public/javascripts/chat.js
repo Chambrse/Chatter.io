@@ -32,7 +32,7 @@ $(document).ready(function () {
         let messageDiv = $("<div class='message animated slideInRight' messageID =>");
         messageDiv.attr("messageID", message.id);
         if (message.nickname) {
-            messageDiv.text(message.nickname + ": " + message.text);
+            messageDiv.text("[" + message.nickname + "]: " + message.text);
         } else {
             messageDiv.text(message.text);
         };
