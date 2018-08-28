@@ -1,0 +1,79 @@
+    <div class="container opaque">
+        <div class="row" id="heading">
+            <div class="col">
+                <h1>Chatter. </h1>
+                <h3>Join the conversation.</h3>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-sm-12" id="loginWindow">
+                Welcome to Chatter, please log in.
+            </div>
+            <div class="col-md-6 col-sm-12" id="loginWindow">
+                <form action="/register" method="POST" id="registerform">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" name="username" id="username" aria-describedby="username" placeholder="Username" value={{inputs.username}}>
+                        {{#if usernameErrors}}
+                            <br>
+                        {{#each usernameErrors}}
+                                <p style="color: red">{{msg}}</p>
+                        {{/each}}
+                        {{/if}}
+                    
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" name="email" id="email" aria-describedby="email" placeholder="Email" value={{inputs.email}}>
+                        {{#if emailErrors}}
+                            <br>
+                        {{#each emailErrors}}
+                                <p style="color: red">{{msg}}</p>
+                        {{/each}}
+                        {{/if}}
+                        {{#if error}}
+                            <p style="color: red">This email is already associated with an account. <a href="/login">Log in</a></p>
+                        {{/if}}
+                    </div>
+                    <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" name="password" id="password" aria-describedby="password" placeholder="Password">
+                        {{#if passwordErrors}}
+                            <br>
+                        {{#each passwordErrors}}
+                                <p style="color: red">{{msg}}</p>
+                        {{/each}}
+                        {{/if}}
+                    </div>
+                        <div class="form-group">
+                                <label for="passwordMatch">Re-Enter Password</label>
+                                <input type="password" class="form-control" name="passwordMatch" id="passwordMatch" aria-describedby="password" placeholder="Password">
+                        {{#if passwordMatchErrors}}
+                            <br>
+                        {{#each passwordMatchErrors}}
+                                <p style="color: red">{{msg}}</p>
+                        {{/each}}
+                        {{/if}}
+                        </div>
+                        <p>Already have an account? <a href="/login">Log in</a></p>
+                    <input type="submit" class="btn btn-secondary">
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS, jq transit -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="http://ricostacruz.com/jquery.transit/jquery.transit.js"></script>
+
+    <!-- Javascript -->
+    <script src="/javascripts/login.js"></script>
+
+    <!-- Velocity -->
+    <script src="//cdn.jsdelivr.net/npm/velocity-animate@2.0/velocity.min.js"></script>
