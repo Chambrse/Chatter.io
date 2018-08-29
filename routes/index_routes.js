@@ -27,12 +27,15 @@ router.get("/chat", authenticationMiddleware(), function (req, res) {
 });
 
 router.get("/login", function (req, res) {
-    res.render('login');
+    console.log(req.session);
+    res.render("login", { login_errors: req.session.messages || [] });
+    req.session.messages = [];
 });
 
 router.post("/login", passport.authenticate("local", {
     successRedirect: "/chat",
-    failureRedirect: "/login"
+    failureRedirect: "/login",
+    failureMessage: "invalid email or password."
 }));
 
 router.get("/register", function (req, res) {

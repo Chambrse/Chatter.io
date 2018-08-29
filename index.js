@@ -12,6 +12,7 @@ var cookieParser = require('cookie-parser');
 var path = require('path');
 var bodyParser = require('body-parser');
 var handlebars = require("express-handlebars");
+var flash = require('connect-flash');
 
 // Other
 let randomSentence = require("random-sentence");
@@ -48,6 +49,7 @@ Store = require('connect-session-sequelize')(session.Store);
 app.use(session({ secret: "keyboard cat", resave: false, store: new Store({ db: db.sequelize }), saveUninitialized: false }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(expressValidator());
@@ -58,7 +60,8 @@ app.use('/', indexRouter);
 
 passport.use(new LocalStrategy({
     usernameField: 'email',
-    passwordField: 'password'
+    passwordField: 'password',
+    failureFlash: true
 }, function (username, password, done) {
 
     db.users.findOne({ where: { email: username }, attributes: ['id', 'hash'] }).then(function (results) {
@@ -66,23 +69,26 @@ passport.use(new LocalStrategy({
         console.log(results);
 
         if (!results) {
-            done(null, false);
-        } else { 
+            done(null, false, { message: "Email not found." });
+        } else {
 
-        const hash = results.dataValues.hash.toString();
+            const hash = results.dataValues.hash.toString();
 
-        bcrypt.compare(password, hash, function (err, response) {
-            console.log("compare response", response);
-            if (response === true) {
-                return done(null, { user_id: results.dataValues.id });
-            } else {
-                return done(null, false);
-            };
-        });
-    };
-});
+            bcrypt.compare(password, hash, function (err, response) {
+                console.log("compare response", response);
 
-    }));
+                if (err) { return done(err) };
+
+                if (response === true) {
+                    return done(null, { user_id: results.dataValues.id });
+                } else {
+                    return done(null, false, { message: "Incorrect password" });
+                };
+            });
+        };
+    });
+
+}));
 
 // Initialize sequelize, start listening on the port.
 let port = process.env.PORT || 3000;
