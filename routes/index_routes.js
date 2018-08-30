@@ -25,7 +25,6 @@ router.get("/chat", authenticationMiddleware(), function (req, res) {
 });
 
 router.get("/login", function (req, res) {
-    console.log("flash", req.flash().message);
     res.render("login", { messages: req.flash("message")});
 });
 
