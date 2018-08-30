@@ -8,8 +8,6 @@ var passport = require("passport");
 var bcrypt = require('bcrypt');
 const saltRounds = 10;
 
-// router.get('/ibm/:handle', function (req, res, next) {
-
 router.get("/", function (req, res) {
     res.render("register");
 });
@@ -18,7 +16,7 @@ router.get("/logout", function (req, res) {
     req.logout();
     req.session.destroy(() => {
         res.clearCookie('connect.sid')
-        res.redirect('/')
+        res.redirect('/login')
     })
 });
 
@@ -27,15 +25,14 @@ router.get("/chat", authenticationMiddleware(), function (req, res) {
 });
 
 router.get("/login", function (req, res) {
-    console.log(req.session);
-    res.render("login", { login_errors: req.session.messages || [] });
-    req.session.messages = [];
+    console.log("flash", req.flash().message);
+    res.render("login", { messages: req.flash("message")});
 });
 
 router.post("/login", passport.authenticate("local", {
     successRedirect: "/chat",
     failureRedirect: "/login",
-    failureMessage: "invalid email or password."
+    failureflash: true
 }));
 
 router.get("/register", function (req, res) {

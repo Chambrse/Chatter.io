@@ -14,8 +14,10 @@ var bodyParser = require('body-parser');
 var handlebars = require("express-handlebars");
 var flash = require('connect-flash');
 
+
 // Other
 let randomSentence = require("random-sentence");
+var favicon = require('serve-favicon');
 
 // Authentication
 var session = require("express-session");
@@ -24,6 +26,8 @@ var expressValidator = require("express-validator");
 // var passport = require('./config/passport.js');
 var LocalStrategy = require('passport-local').Strategy;
 var bcrypt = require('bcrypt');
+var sharedsession = require("express-socket.io-session");
+
 
 // -----------------------
 // Server & Socket & Database:
@@ -36,6 +40,7 @@ var db = require("./models");
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
+
 
 // Handlebars
 app.set('views', path.join(__dirname, 'views'));
@@ -53,6 +58,10 @@ app.use(flash());
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(expressValidator());
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
+
+
+io.use(sharedsession(session({ secret: "keyboard cat", resave: false, store: new Store({ db: db.sequelize }), saveUninitialized: false })));
 
 // Routes
 var indexRouter = require('./routes/index_routes.js');
@@ -61,28 +70,33 @@ app.use('/', indexRouter);
 passport.use(new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password',
-    failureFlash: true
-}, function (username, password, done) {
+    passReqToCallback: true
+}, function (req, email, password, done) {
 
-    db.users.findOne({ where: { email: username }, attributes: ['id', 'hash'] }).then(function (results) {
+    db.users.findOne({ where: { email: email }, attributes: ['id', 'username', 'hash'] }).then(function (results, err) {
 
-        console.log(results);
+        console.log("id nd hash", results);
+        console.log(err);
+
+        if (err) { return done(err); };
 
         if (!results) {
-            done(null, false, { message: "Email not found." });
+            console.log("no results from database");
+            done(null, false, req.flash('message', "Email not found."));
         } else {
 
             const hash = results.dataValues.hash.toString();
-
+            console.log(hash);
             bcrypt.compare(password, hash, function (err, response) {
+                console.log("test");
                 console.log("compare response", response);
 
                 if (err) { return done(err) };
 
                 if (response === true) {
-                    return done(null, { user_id: results.dataValues.id });
+                    return done(null, { user_id: results.dataValues.id, username: results.dataValues.username });
                 } else {
-                    return done(null, false, { message: "Incorrect password" });
+                    return done(null, false, req.flash('message', "Incorrect Password."));
                 };
             });
         };
@@ -98,64 +112,4 @@ db.sequelize.sync().then(function () {
     });
 });
 
-//-----------------------------------------------------------------------------
-// Configure web sockets.
-//-----------------------------------------------------------------------------
-let messageID = 0;
-
-io.sockets.on("connection", function (socket) {
-
-    messageID++;
-
-    console.log(socket.handshake.query.nickname);
-
-    io.sockets.emit("chat-message", { id: messageID, text: "User Connected", nickname: socket.handshake.query.nickname });
-
-    socket.on("chat-message", function (message) {
-
-        console.log(message);
-        messageArray = message.text.split(" ");
-        if (messageArray[0] === "admin") {
-            switch (messageArray[1]) {
-                case "chatsim":
-                    simOn = true;
-                    chatSim();
-                    break;
-                case "simOff":
-                    simOn = false;
-                    break;
-
-                default:
-                    break;
-            }
-        } else {
-            messageID++;
-            let messageObj = {
-                id: messageID,
-                text: message.text,
-                nickname: message.nickname
-            };
-            console.log(messageObj);
-            io.sockets.emit("chat-message", messageObj);
-        };
-    });
-
-});
-
-
-function chatSim() {
-
-    if (simOn) {
-        messageID++;
-        new Promise(function (resolve, reject) {
-            setTimeout(function () {
-                io.sockets.emit("chat-message", { id: messageID, text: randomSentence({ min: 4, max: 9 }) });
-                resolve();
-            }, Math.ceil(Math.random() * 1000));
-
-        }).then(function () {
-            chatSim();
-        });
-    };
-
-};
+require("./routes/socket_functions")(io);

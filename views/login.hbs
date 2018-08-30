@@ -11,8 +11,9 @@
             Welcome to Chatter, please log in.
         </div>
         <div class="col-md-6 col-sm-12" id="loginWindow">
-            {{#if login_errors}}
-                {{login_errors}}
+
+            {{#if messages}}
+                {{messages}}
             {{/if}}
             <form action="/login" method="POST" id="registerform">
                 <div class="form-group">
@@ -23,8 +24,6 @@
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" class="form-control" name="password" id="password" aria-describedby="password" placeholder="Password">
-                    <br>
-                    <p style="color: red">Incorrect password.</p>
                 </div>
                 <p>Don't have an account? <a href="/register">Register</a></p>
                 <input type="submit" class="btn btn-secondary">
