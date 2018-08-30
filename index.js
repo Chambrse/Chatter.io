@@ -60,7 +60,6 @@ app.use(bodyParser.json())
 app.use(expressValidator());
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 
-
 io.use(sharedsession(session({ secret: "keyboard cat", resave: false, store: new Store({ db: db.sequelize }), saveUninitialized: false })));
 
 // Routes
@@ -75,8 +74,7 @@ passport.use(new LocalStrategy({
 
     db.users.findOne({ where: { email: email }, attributes: ['id', 'username', 'hash'] }).then(function (results, err) {
 
-        console.log("id nd hash", results);
-        console.log(err);
+        console.log("sequelize error", err);
 
         if (err) { return done(err); };
 
@@ -86,9 +84,7 @@ passport.use(new LocalStrategy({
         } else {
 
             const hash = results.dataValues.hash.toString();
-            console.log(hash);
             bcrypt.compare(password, hash, function (err, response) {
-                console.log("test");
                 console.log("compare response", response);
 
                 if (err) { return done(err) };

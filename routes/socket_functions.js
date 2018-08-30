@@ -8,6 +8,8 @@ module.exports = function (io) {
     io.sockets.on("connection", function (socket) {
 
         let username = socket.handshake.session.passport.user.username
+
+        console.log("username", username);
         
         messageID++;
         io.sockets.emit("chat-message", { id: messageID, text: "User Connected", nickname: username });
