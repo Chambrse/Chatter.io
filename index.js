@@ -16,7 +16,6 @@ var flash = require('connect-flash');
 
 
 // Other
-let randomSentence = require("random-sentence");
 var favicon = require('serve-favicon');
 
 // Authentication

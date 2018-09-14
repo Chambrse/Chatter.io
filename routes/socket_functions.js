@@ -1,6 +1,8 @@
 //-----------------------------------------------------------------------------
 // Configure web sockets.
 //-----------------------------------------------------------------------------
+let randomSentence = require("random-sentence");
+
 
 module.exports = function (io) {
     let messageID = 0;
