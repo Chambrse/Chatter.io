@@ -1,9 +1,6 @@
 $(document).ready(function () {
 
-    console.log(window.location)
-
-    let userNickName = localStorage.getItem("nickname");
-    var socket = io(window.location.host, { query: "nickname=" + userNickName});
+    var socket = io(window.location.host);
 
     //-----------------------------------------------------------------------------
     // Emit chat message when enter key is pressed.
@@ -12,7 +9,7 @@ $(document).ready(function () {
         if (event.keyCode == 13) {
             event.preventDefault();
             if ($("#messageInput").val() != "") {
-                socket.emit("chat-message", { text: $("#messageInput").val(), nickname: userNickName });
+                socket.emit("chat-message", { text: $("#messageInput").val(), selectedMessage: selectedMessage });
             };
             $("#messageInput").val("");
         };
@@ -25,27 +22,51 @@ $(document).ready(function () {
     let currentSledID = 0;
     let messageCount = 0;
     let isFirstCycle = true;
+    let currentMessageId = 0;
     socket.on("chat-message", function (message) {
 
-        console.log(message);
+        console.log(message.replyto);
 
-        let messageDiv = $("<div class='message animated slideInRight' messageID =>");
+        $(".message[messageID=" + message.replyto + "]").addClass("repliedTo");
+
+        currentMessageId = message.id;
+
+        let messageDiv = $("<div class='message animated slideInRight'>");
         messageDiv.attr("messageID", message.id);
-        if (message.nickname) {
-            messageDiv.text("[" + message.nickname + "]: " + message.text);
-        } else {
-            messageDiv.text(message.text);
-        };
+        messageDiv.text("[" + message.nickname + "]: " + message.text);
 
         $("#displayDiv").append(messageDiv);
 
         messageCount++;
-        console.log(messageCount);
 
         if (messageCount > 6) {
             messageCount = 0;
             changeDiv();
         };
+
+    });
+
+    let selectedMessage = 0;
+    $(window).keydown(function (e) {
+
+        // If you press Tab
+        if (e.keyCode === 9) {
+            e.preventDefault();
+
+            
+            if (selectedMessage === 0) {
+                selectedMessage = currentMessageId;
+            } else {
+                selectedMessage--;
+            }
+            console.log(selectedMessage);
+
+            $(".selected").removeClass("selected");
+            $(".message[messageID=" + selectedMessage + "]").addClass("selected");
+        } else if (e.keyCode === 27) {
+            selectedMessage = 0;
+            $(".selected").removeClass("selected");
+        }
 
     });
 
@@ -59,7 +80,7 @@ $(document).ready(function () {
     </div>");
         if (currentSledID % 3 === 0 && !isFirstCycle) {
             $(".displayDiv").animate({ right: '+=75%' }, 1000);
-            $("[state=full]").animate({ opacity: '0' }, 1000,  function () {
+            $("[state=full]").animate({ opacity: '0' }, 1000, function () {
                 $("[state=toRemove]").remove();
             });
             $("#chatWindow").prepend(newdiv);
@@ -70,6 +91,8 @@ $(document).ready(function () {
         currentSledID++;
         isFirstCycle = false;
     };
+
+
 
 });
 

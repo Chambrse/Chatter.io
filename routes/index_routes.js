@@ -96,7 +96,7 @@ router.post("/register", function (req, res) {
                 hash: hash
             }).then(function (data) {
 
-                req.login(data.dataValues.id, function (err) {
+                req.login({ user_id: data.dataValues.id, username: data.dataValues.username }, function (err) {
                     res.redirect("/chat");
                 });
 

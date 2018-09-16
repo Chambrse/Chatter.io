@@ -19,6 +19,8 @@ body {
     word-wrap: break-word;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
+    transition: 500ms;
+    -webkit-transition: 500ms;
 }
 
 .message:hover {
@@ -44,6 +46,16 @@ body {
     padding: 0;
     margin-top: 15px;
     position: absolute;
+}
+
+.selected {
+    background-color: grey;
+    -webkit-transform: translate(5px, 5px);
+    transform: translate(5px, 5px);
+}
+
+.repliedTo {
+    background-color: green;
 }
 
 #loginWindow {
