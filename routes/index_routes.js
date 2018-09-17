@@ -21,6 +21,8 @@ router.get("/logout", function (req, res) {
 });
 
 router.get("/chat", authenticationMiddleware(), function (req, res) {
+    console.log("isauth", req.isAuthenticated());
+    // console.log("chatroute", req.session);
     res.render("chat");
 });
 
@@ -29,10 +31,13 @@ router.get("/login", function (req, res) {
 });
 
 router.post("/login", passport.authenticate("local", {
-    successRedirect: "/chat",
     failureRedirect: "/login",
     failureflash: true
-}));
+}), function (req, res) {
+    req.session.save(function(){
+        res.redirect("/chat");
+      });
+});
 
 router.get("/register", function (req, res) {
     res.render("register");

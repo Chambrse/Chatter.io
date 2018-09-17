@@ -14,7 +14,6 @@ var bodyParser = require('body-parser');
 var handlebars = require("express-handlebars");
 var flash = require('connect-flash');
 
-
 // Other
 var favicon = require('serve-favicon');
 
@@ -46,10 +45,12 @@ app.set('views', path.join(__dirname, 'views'));
 app.engine('hbs', handlebars({ defaultLayout: 'main', extname: '.hbs' }));
 app.set('view engine', 'hbs');
 
+let Store = require('connect-session-sequelize')(session.Store);
+
+
 // Middleware
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
-Store = require('connect-session-sequelize')(session.Store);
 app.use(session({ secret: "keyboard cat", resave: false, store: new Store({ db: db.sequelize }), saveUninitialized: false }));
 app.use(passport.initialize());
 app.use(passport.session());

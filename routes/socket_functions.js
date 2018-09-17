@@ -11,7 +11,6 @@ module.exports = function (io) {
 
         let username = socket.handshake.session.passport.user.username
 
-        console.log(socket.handshake);
 
         console.log("username", username);
         
