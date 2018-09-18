@@ -81,6 +81,7 @@ passport.use(new LocalStrategy({
         if (!results) {
             console.log("no results from database");
             done(null, false, req.flash('message', "Email not found."));
+            // done(null, false, { message: "Email not found." });
         } else {
 
             const hash = results.dataValues.hash.toString();
@@ -93,6 +94,7 @@ passport.use(new LocalStrategy({
                     return done(null, { user_id: results.dataValues.id, username: results.dataValues.username });
                 } else {
                     return done(null, false, req.flash('message', "Incorrect Password."));
+                    // return done(null, false, { message: "Incorrect Password." });
                 };
             });
         };
